@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import store from './store/index.js';
-
+// test comment
 import BaseButton from './components/ui/BaseButton.vue';
 
 const app = createApp(App);
