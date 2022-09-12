@@ -20,12 +20,6 @@ Name | Begründung
 
 ## Installation / Ausführen des Projektes
 
-Beschreibe, wie wir uns das Projekt lokal anschauen können.
-
-Zum Beispiel:
-
----
-
 Folgende Komponenten müssen lokal installiert sein:
 
 - [nodejs](https://nodejs.org/en/) v16.15.0
@@ -38,4 +32,3 @@ $ cd Code-Project-CSV-Processing
 $ npm install
 $ npm run serve
 ```
----
