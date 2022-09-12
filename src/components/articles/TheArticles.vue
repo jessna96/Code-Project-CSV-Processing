@@ -11,20 +11,28 @@
           @change="getCSVData"
           accept=".csv"
       /></base-button>
-      <base-button>Export als CSV-Datei</base-button>
+      <base-button @click="exportCSV">Export als CSV-Datei</base-button>
       <base-button>Chart erstellen</base-button>
     </div>
     <div id="articleTable" class="tablediv" v-if="hasArticles">
       <table>
         <tr>
+          <th></th>
           <th v-for="column in columns" :key="column">{{ column }}</th>
         </tr>
-        <tr v-for="article in articles" :key="article.Hauptartikelnr">
+        <tr v-for="(article, artIdx) in articles" :key="article.Hauptartikelnr">
+          <td>
+            <base-button @click="removeArticle(artIdx)">Delete</base-button>
+          </td>
           <td v-for="(articleProp, key) in article" :key="key">
-            <input :value="articleProp" />
+            <input
+              :value="articleProp"
+              @change="changeArticleValue($event, article.Hauptartikelnr, key)"
+            />
           </td>
         </tr>
       </table>
+      <div><base-button @click="addArticle">Neuer Artikel</base-button></div>
     </div>
     <div v-else class="center">
       There are no articles yet. Please import a csv-file.
@@ -34,11 +42,13 @@
 
 <script>
 import $ from 'jquery';
+import BaseButton from '../ui/BaseButton.vue';
 
 export default {
+  components: { BaseButton },
   data() {
     return {
-      hasArticles: this.$store.getters['hasArticles'],
+      changedValue: '',
     };
   },
   computed: {
@@ -47,6 +57,9 @@ export default {
     },
     columns() {
       return Object.keys(this.$store.getters['getArticles'][0]);
+    },
+    hasArticles() {
+      return this.$store.getters['hasArticles'];
     },
   },
   methods: {
@@ -83,12 +96,11 @@ export default {
           // get individual dataset
           dataArray.forEach((element) => {
             // console.log(element);
-            let res = "";
-            res = element.replace(/;;/g, "; ;");
+            let res = '';
+            res = element.replace(/;;/g, '; ;');
             do {
-              res = res.replace(/;;/g, "; ;");
-            }
-            while (res.includes(";;"))
+              res = res.replace(/;;/g, '; ;');
+            } while (res.includes(';;'));
             // console.log(res);
             let tempArray = res.match(/("[^"]*")|[^;]+/g);
             // console.log(tempArray);
@@ -112,14 +124,60 @@ export default {
         };
       }
     },
+    removeArticle(index) {
+      this.$store.dispatch('removeArticle', index);
+    },
+    changeArticleValue(event, articleNr, artProperty) {
+      this.$store.dispatch('updateArticle', {
+        newValue: event.target.value,
+        articleNr: articleNr,
+        artProperty: artProperty,
+      });
+    },
+    addArticle() {
+      let article = {};
+      let properties = Object.keys(this.$store.getters['getArticles'][0]);
+      properties.forEach((element) => {
+        article[element] = '';
+      });
+      console.log(article);
+      this.$store.dispatch('addArticle', article);
+    },
+    exportCSV() {
+      let articles = this.$store.getters['getArticles'];
+      let properties = Object.keys(this.$store.getters['getArticles'][0]);
+      console.log(properties);
+      let csvContent = 'data:text/csv;charset=utf-8,\nArticle\n';
+      let propRow = properties.join(';');
+      csvContent += propRow + '\n';
+      console.log(csvContent);
+      articles.forEach((element) => {
+        let article = Object.values(element);
+        console.log(article);
+        article.forEach((item, idx, arr) => {
+          if (item.toString().includes('\n')) {
+            arr[idx] = "\"" + item + "\"";
+          }
+        });
+        let articleString = article.join(';');
+        csvContent += articleString + '\n';
+      });
+      console.log(csvContent);
+      var encodedUri = encodeURI(csvContent);
+      var link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', 'Articles.csv');
+      document.body.appendChild(link); 
+      link.click(); 
+    },
   },
   created() {
     if (this.hasArticles) {
       $('#articleTable').DataTable({
         scrollX: true,
-    });
+      });
     }
-  }
+  },
 };
 </script>
 
