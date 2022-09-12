@@ -14,7 +14,7 @@
       <base-button>Export als CSV-Datei</base-button>
       <base-button>Chart erstellen</base-button>
     </div>
-    <div class="tablediv" v-if="hasArticles">
+    <div id="articleTable" class="tablediv" v-if="hasArticles">
       <table>
         <tr>
           <th v-for="column in columns" :key="column">{{ column }}</th>
@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import $ from 'jquery';
+
 export default {
   data() {
     return {
@@ -74,14 +76,22 @@ export default {
           }
           // console.log(header);
           const dataArray = allData.slice(2, allData.length);
-          console.log(dataArray);
+          // console.log(dataArray);
 
           let articles = [];
 
           // get individual dataset
           dataArray.forEach((element) => {
-            let tempArray = element.match(/("[^"]*")|[^;]+/g);
-            console.log(tempArray);
+            // console.log(element);
+            let res = "";
+            res = element.replace(/;;/g, "; ;");
+            do {
+              res = res.replace(/;;/g, "; ;");
+            }
+            while (res.includes(";;"))
+            // console.log(res);
+            let tempArray = res.match(/("[^"]*")|[^;]+/g);
+            // console.log(tempArray);
             // let articlePropertyArray = element.split(';');
             // console.log(articlePropertyArray);
             let propertyObject = {};
@@ -103,6 +113,13 @@ export default {
       }
     },
   },
+  created() {
+    if (this.hasArticles) {
+      $('#articleTable').DataTable({
+        scrollX: true,
+    });
+    }
+  }
 };
 </script>
 
