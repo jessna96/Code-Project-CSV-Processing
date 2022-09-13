@@ -30,6 +30,5 @@ Um das Projekt lokal auszuführen, folgendes in der Commandline / Bash eingeben:
 $ git clone https://github.com/jessna96/Code-Project-CSV-Processing.git
 $ cd Code-Project-CSV-Processing
 $ npm install
-$ npm install jquery??? oder oben??---
 $ npm run serve
 ```
