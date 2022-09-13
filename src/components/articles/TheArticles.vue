@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import $ from 'jquery';
+// import $ from 'jquery';
 import BaseButton from '../ui/BaseButton.vue';
 
 export default {
@@ -146,14 +146,11 @@ export default {
     exportCSV() {
       let articles = this.$store.getters['getArticles'];
       let properties = Object.keys(this.$store.getters['getArticles'][0]);
-      console.log(properties);
       let csvContent = 'data:text/csv;charset=utf-8,\nArticle\n';
       let propRow = properties.join(';');
       csvContent += propRow + '\n';
-      console.log(csvContent);
       articles.forEach((element) => {
         let article = Object.values(element);
-        console.log(article);
         article.forEach((item, idx, arr) => {
           if (item.toString().includes('\n')) {
             arr[idx] = "\"" + item + "\"";
@@ -162,7 +159,7 @@ export default {
         let articleString = article.join(';');
         csvContent += articleString + '\n';
       });
-      console.log(csvContent);
+
       var encodedUri = encodeURI(csvContent);
       var link = document.createElement('a');
       link.setAttribute('href', encodedUri);
@@ -171,13 +168,13 @@ export default {
       link.click(); 
     },
   },
-  created() {
-    if (this.hasArticles) {
-      $('#articleTable').DataTable({
-        scrollX: true,
-      });
-    }
-  },
+  // created() {
+  //   if (this.hasArticles) {
+  //     $('#articleTable').DataTable({
+  //       scrollX: true,
+  //     });
+  //   }
+  // },
 };
 </script>
 
