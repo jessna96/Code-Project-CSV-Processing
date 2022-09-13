@@ -40,14 +40,22 @@ export default {
         return article[property];
       });
       const occurrences = propArray.reduce(function (acc, curr) {
-        if (curr == '') {
-          return acc['- leer -'] ? ++acc['- leer -'] : (acc['- leer -'] = 1), acc;
+        if ((curr == '') | (curr == ' ')) {
+          return (
+            acc['- leer -'] ? ++acc['- leer -'] : (acc['- leer -'] = 1), acc
+          );
         } else {
           return acc[curr] ? ++acc[curr] : (acc[curr] = 1), acc;
         }
       }, {});
+
+      console.log(occurrences);
+      delete occurrences['- leer -'];
+
       let values = Object.values(occurrences);
       let labels = Object.keys(occurrences);
+    //   console.log(values);
+    //   console.log(labels);
       return {
         uuid: 'pieChart',
         data: [

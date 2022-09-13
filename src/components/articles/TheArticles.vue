@@ -89,7 +89,7 @@ export default {
           }
           // console.log(header);
           const dataArray = allData.slice(2, allData.length);
-          // console.log(dataArray);
+          console.log(dataArray);
 
           let articles = [];
 
@@ -101,9 +101,10 @@ export default {
             do {
               res = res.replace(/;;/g, '; ;');
             } while (res.includes(';;'));
-            // console.log(res);
-            let tempArray = res.match(/("[^"]*")|[^;]+/g);
-            // console.log(tempArray);
+            console.log(res);
+            let res2 = res.replace(/""/g, "'");
+            let tempArray = res2.match(/("[^"]*")|[^;]+/g);
+            console.log(tempArray);
             // let articlePropertyArray = element.split(';');
             // console.log(articlePropertyArray);
             let propertyObject = {};
@@ -128,6 +129,7 @@ export default {
       this.$store.dispatch('removeArticle', index);
     },
     changeArticleValue(event, articleNr, artProperty) {
+      console.log("hier");
       this.$store.dispatch('updateArticle', {
         newValue: event.target.value,
         articleNr: articleNr,
