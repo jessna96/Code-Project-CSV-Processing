@@ -107,6 +107,20 @@ export default {
             console.log(tempArray);
             // let articlePropertyArray = element.split(';');
             // console.log(articlePropertyArray);
+            for (i=0; i<tempArray.length; i++) {
+              if (tempArray[i].includes("\"")) {
+                console.log("inclues \"");
+                let res = tempArray[i].replace(/\\"/g, "");
+                let res2 = res.replace(/"/g, "");
+                let res3 = res2.replace(/'/g, '"');
+                tempArray[i] = res3;
+              }
+              if (tempArray[i].includes("'")) {
+                console.log("includes '");
+                tempArray[i].replace(/'/g, '"');
+              }
+            }
+            console.log(tempArray);
             let propertyObject = {};
             for (var i = 0; i < tempArray.length; i++) {
               propertyObject[header[i]] = tempArray[i];
@@ -154,8 +168,12 @@ export default {
       articles.forEach((element) => {
         let article = Object.values(element);
         article.forEach((item, idx, arr) => {
-          if (item.toString().includes('\n')) {
-            arr[idx] = "\"" + item + "\"";
+          let newItem = item;
+          if (item.includes('"')) {
+            newItem = item.replace(/"/g, '""');
+          }
+          if (newItem.toString().includes('\n') || newItem.toString().includes(';')) {
+            arr[idx] = "\"" + newItem + "\"";
           }
         });
         let articleString = article.join(';');
@@ -192,10 +210,6 @@ table {
   table-layout: auto;
   overflow-x: auto;
   margin: 5%;
-}
-
-.tablediv {
-  /* overflow:scroll; */
 }
 
 td,
