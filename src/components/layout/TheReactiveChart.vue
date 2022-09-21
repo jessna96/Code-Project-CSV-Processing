@@ -1,5 +1,7 @@
 <template>
-  <div :ref="chart.uuid"></div>
+  <div class="container-fluid">
+    <div :ref="chart.uuid" class="chartdiv"></div>
+  </div>
 </template>
 
 <script>
@@ -33,3 +35,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.chartdiv {
+    height: 100%;
+    width: 100%;
+}
+</style>

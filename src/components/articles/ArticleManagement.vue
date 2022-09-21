@@ -1,6 +1,8 @@
 <template>
-  <the-articles></the-articles>
-  <the-chart></the-chart>
+  <div class="container">
+    <the-articles></the-articles>
+    <the-chart></the-chart>
+  </div>
 </template>
 
 <script>

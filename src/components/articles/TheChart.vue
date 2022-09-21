@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <h2>Chart</h2>
-    <div class="select">
-      <select v-model="chartArticleProp">
+  <div class="container" style="margin: 3%">
+    <h2>Statistik</h2>
+    <div class="col-4 mx-auto">
+      <select class="form-select" v-model="chartArticleProp">
         <option selected disabled :value="null">Bitte wählen...</option>
         <option v-for="prop in artProps" :key="prop" :value="prop">
           {{ prop }}
@@ -13,7 +13,7 @@
       :chart="chart"
       v-if="!!chartArticleProp"
     ></the-reactive-chart>
-    <p v-else>Bitte wähle zunächst eine Kategorie!</p>
+    <div class="container center" v-else>Bitte wähle zunächst eine Kategorie!</div>
   </div>
 </template>
 

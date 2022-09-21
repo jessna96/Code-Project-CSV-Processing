@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <h2>Artikel</h2>
-    <div class="center">
-      <base-button
+  <div class="container">
+    <div class="d-grid gap-2 col-4 mx-auto" style="margin: 2%">
+      <base-button class="btn-secondary"
         >Import aus CSV-Datei:
         <input
           type="file"
@@ -11,28 +10,49 @@
           @change="getCSVData"
           accept=".csv"
       /></base-button>
-      <base-button @click="exportCSV">Export als CSV-Datei</base-button>
-      <base-button>Chart erstellen</base-button>
+      <base-button @click="exportCSV" class="btn-secondary"
+        >Export als CSV-Datei</base-button
+      >
+      <base-button class="btn-secondary"
+        ><a href="#chart"></a>Zum Diagramm</base-button
+      >
     </div>
-    <div id="articleTable" class="tablediv" v-if="hasArticles">
-      <table>
-        <tr>
-          <th></th>
-          <th v-for="column in columns" :key="column">{{ column }}</th>
-        </tr>
-        <tr v-for="(article, artIdx) in articles" :key="article.Hauptartikelnr">
-          <td>
-            <base-button @click="removeArticle(artIdx)">Delete</base-button>
-          </td>
-          <td v-for="(articleProp, key) in article" :key="key">
-            <input
-              :value="articleProp"
-              @change="changeArticleValue($event, article.Hauptartikelnr, key)"
-            />
-          </td>
-        </tr>
-      </table>
-      <div><base-button @click="addArticle">Neuer Artikel</base-button></div>
+    <div v-if="hasArticles">
+      <div class="table-responsive">
+        <table id="articleTable" class="table align-middle">
+          <thead class="table-dark">
+            <tr>
+              <th></th>
+              <th v-for="column in columns" :key="column">{{ column }}</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr
+              v-for="(article, artIdx) in articles"
+              :key="article.Hauptartikelnr"
+            >
+              <td>
+                <base-button @click="removeArticle(artIdx)" class="btn-danger"
+                  >Delete</base-button
+                >
+              </td>
+              <td v-for="(articleProp, key) in article" :key="key">
+                <input
+                  :value="articleProp"
+                  @change="
+                    changeArticleValue($event, article.Hauptartikelnr, key)
+                  "
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <base-button @click="addArticle" class="btn-success" style="margin-top: 1rem"
+          >Neuer Artikel</base-button
+        >
+      </div>
     </div>
     <div v-else class="center">
       There are no articles yet. Please import a csv-file.
@@ -41,8 +61,9 @@
 </template>
 
 <script>
-// import $ from 'jquery';
 import BaseButton from '../ui/BaseButton.vue';
+import $ from 'jquery';
+import DataTable from 'datatables.net';
 
 export default {
   components: { BaseButton },
@@ -107,11 +128,11 @@ export default {
             console.log(tempArray);
             // let articlePropertyArray = element.split(';');
             // console.log(articlePropertyArray);
-            for (i=0; i<tempArray.length; i++) {
-              if (tempArray[i].includes("\"")) {
-                console.log("inclues \"");
-                let res = tempArray[i].replace(/\\"/g, "");
-                let res2 = res.replace(/"/g, "");
+            for (i = 0; i < tempArray.length; i++) {
+              if (tempArray[i].includes('"')) {
+                console.log('inclues "');
+                let res = tempArray[i].replace(/\\"/g, '');
+                let res2 = res.replace(/"/g, '');
                 let res3 = res2.replace(/'/g, '"');
                 tempArray[i] = res3;
               }
@@ -143,7 +164,7 @@ export default {
       this.$store.dispatch('removeArticle', index);
     },
     changeArticleValue(event, articleNr, artProperty) {
-      console.log("hier");
+      console.log('hier');
       this.$store.dispatch('updateArticle', {
         newValue: event.target.value,
         articleNr: articleNr,
@@ -172,8 +193,11 @@ export default {
           if (item.includes('"')) {
             newItem = item.replace(/"/g, '""');
           }
-          if (newItem.toString().includes('\n') || newItem.toString().includes(';')) {
-            arr[idx] = "\"" + newItem + "\"";
+          if (
+            newItem.toString().includes('\n') ||
+            newItem.toString().includes(';')
+          ) {
+            arr[idx] = '"' + newItem + '"';
           }
         });
         let articleString = article.join(';');
@@ -184,49 +208,49 @@ export default {
       var link = document.createElement('a');
       link.setAttribute('href', encodedUri);
       link.setAttribute('download', 'Articles.csv');
-      document.body.appendChild(link); 
-      link.click(); 
+      document.body.appendChild(link);
+      link.click();
     },
   },
-  // created() {
-  //   if (this.hasArticles) {
-  //     $('#articleTable').DataTable({
-  //       scrollX: true,
-  //     });
-  //   }
-  // },
+  mounted() {
+    // if (this.hasArticles) {
+    //   $('#articleTable').DataTable({
+    //     // scrollX: true,
+    //   });
+    // }
+  },
 };
 </script>
 
 <style scoped>
-.center {
+/* .center {
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */
 table {
-  font-family: inherit;
+  /* font-family: inherit;
   border-collapse: collapse;
   table-layout: auto;
   overflow-x: auto;
-  margin: 5%;
+  margin: 5%; */
 }
 
 td,
 th {
-  border: 1px solid #51565d;
+  /* border: 1px solid #51565d;
   text-align: left;
-  padding: 8px;
+  padding: 8px; */
 }
 
 th {
-  background-color: #dddddd;
+  /* background-color: #dddddd; */
 }
 
 input {
-  text-overflow: ellipsis;
+  /* text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: hidden; */
 }
 
 /* tr:nth-child(even) {

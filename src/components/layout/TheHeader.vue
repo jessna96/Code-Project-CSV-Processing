@@ -1,6 +1,10 @@
 <template>
   <header>
-    <h1>{{ title }}</h1>
+    <nav class="navbar navbar-light">
+      <div class="container-fluid">
+        <span class="navbar-text h1">{{ title }}</span>
+      </div>
+    </nav>
   </header>
 </template>
 
@@ -16,16 +20,16 @@ export default {
 </script>
 
 <style scoped>
-header {
-  width: 100%;
-  height: 5rem;
+.navbar {
   background-color: #640032;
-  display: flex;
+}
+
+.container-fluid {
   justify-content: center;
   align-items: center;
 }
 
-header h1 {
+.h1 {
   color: white;
   margin: 0;
 }
