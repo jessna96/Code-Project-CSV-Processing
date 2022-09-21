@@ -20,4 +20,12 @@ h2 {
 body {
   margin: 0;
 }
+p {
+  margin: 2%;
+}
+.center {
+  justify-content: center;
+  text-align: center;
+  width: 70%;
+}
 </style>

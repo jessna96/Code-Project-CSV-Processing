@@ -1,5 +1,5 @@
 <template>
-  <div class="container" style="margin: 3%">
+  <div class="container" id="chart">
     <h2>Statistik</h2>
     <div class="col-4 mx-auto">
       <select class="form-select" v-model="chartArticleProp">
@@ -13,7 +13,9 @@
       :chart="chart"
       v-if="!!chartArticleProp"
     ></the-reactive-chart>
-    <div class="container center" v-else>Bitte wähle zunächst eine Kategorie!</div>
+    <div class="container center" v-else>
+      <p>Bitte wähle zunächst eine Kategorie!</p>
+    </div>
   </div>
 </template>
 
@@ -32,7 +34,11 @@ export default {
       return this.$store.getters['getArticles'];
     },
     artProps() {
-      return Object.keys(this.$store.getters['getArticles'][0]);
+      if (this.$store.getters['getArticles']) {
+        return Object.keys(this.$store.getters['getArticles'][0]);
+      } else {
+        return '';
+      }
     },
     chart() {
       let property = this.chartArticleProp;
@@ -54,8 +60,8 @@ export default {
 
       let values = Object.values(occurrences);
       let labels = Object.keys(occurrences);
-    //   console.log(values);
-    //   console.log(labels);
+      //   console.log(values);
+      //   console.log(labels);
       return {
         uuid: 'pieChart',
         data: [
@@ -71,11 +77,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.center {
-  justify-content: center;
-  text-align: center;
-  width: 70%;
-}
-</style>

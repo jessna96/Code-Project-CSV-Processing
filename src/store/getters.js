@@ -3,6 +3,12 @@ export default {
         return state.articles;
     },
     hasArticles(state) {
-        return !!state.articles.length;
+        if (state.articles) {
+            return !!state.articles.length;
+        }
+        else {
+            return false;
+        }
+        
     }
 }
