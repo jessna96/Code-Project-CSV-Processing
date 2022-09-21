@@ -11,7 +11,7 @@ To run the project locally, enter the following in Commandline / Bash:
 
 ```console
 $ git clone https://github.com/jessna96/Code-Project-CSV-Processing.git
- $ cd Code-Project-CSV-Processing
- $ npm install
- $ npm run serve
+$ cd Code-Project-CSV-Processing
+$ npm install
+$ npm run serve
 ```
