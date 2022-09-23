@@ -4,19 +4,17 @@
 
 Folgende Technologien / Frameworks setze ich in meinem Projekt ein:
 
-- JavaScript / jQuery
-- PHP / Symfony
-- ...
+- JavaScript / Vue.js
 
-Ich habe mich für jQuery entschieden, weil ...
+Ich habe mich für Vue.js entschieden, weil ich von diesem Framework begeistert bin, vor allem davon, wie schnell und einfach man damit im Vergleich zu Vanilla-Javascript Benutzeroberflächen erstellen kann. Zudem habe ich vor kurzem einen Einführungskurs dazu belegt und diese Challenge bot eine gute Möglichkeit, mein Wissen anzuwenden. 
 
 ## Eingesetzte 3rd Party Libraries
 
-Ich setze in meinem Projekt die folgenden 3rd Party Libraries ein: (falls keine, Tabelle entfernen und begründen warum)
+Ich setze in meinem Projekt die folgenden 3rd Party Libraries ein:
 
 Name | Begründung
 --- | ---
-[Bootstrap](https://getbootstrap.com/) | Einfaches RWD Framework zur Gestaltung des Frontends
+[Bootstrap](https://getbootstrap.com/) | Erleichtert die Gestaltung des Frontends
 
 ## Installation / Ausführen des Projektes
 
