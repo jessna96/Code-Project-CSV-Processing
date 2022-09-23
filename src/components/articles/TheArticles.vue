@@ -50,7 +50,6 @@
           </div>
         </div>
         <div v-else class="container center">
-          <!-- There are no articles yet. Please import a csv-file. -->
           <p>Noch keine Artikel vorhanden. Import einer csv-Datei nötig.</p>
         </div>
       </div>
@@ -84,7 +83,6 @@ export default {
       this.$store.dispatch('removeArticle', index);
     },
     changeArticleValue(event, articleNr, artProperty) {
-      console.log('hier');
       this.$store.dispatch('updateArticle', {
         newValue: event.target.value,
         articleNr: articleNr,
@@ -97,7 +95,6 @@ export default {
       properties.forEach((element) => {
         article[element] = '';
       });
-      console.log(article);
       this.$store.dispatch('addArticle', article);
     },
   },

@@ -1,10 +1,7 @@
 export default {
     addArticles(context, data) {
-
         let articles = data;
-
         context.commit('addArticles', articles);
-
     },
     removeArticle(context, articleIdx) {
         context.commit('removeArticle', articleIdx);

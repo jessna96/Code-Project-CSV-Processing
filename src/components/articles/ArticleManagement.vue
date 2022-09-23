@@ -41,19 +41,16 @@ export default {
   methods: {
     getCSVData(event) {
       let that = this;
-      // console.log(event.target.files);
       this.file = event.target.files ? event.target.files[0] : null;
+
       if (this.file) {
-        // reader.readAsBinaryString(this.file);
         let fileReader = new FileReader();
         fileReader.readAsText(this.file);
         fileReader.onload = function () {
           let csvString = fileReader.result;
-          // console.log(csvString);
 
-          //get Data and separate from headers
+          // get Data and separate from headers
           const allData = csvString.split('\r\n');
-          // console.log(allData);
           const header = allData[1].split(';');
           for (var k = 0; k < header.length; k++) {
             header[k] = header[k].replace(/Ä/g, 'Ae');
@@ -63,49 +60,45 @@ export default {
             header[k] = header[k].replace(/Ö/g, 'Oe');
             header[k] = header[k].replace(/ö/g, 'oe');
           }
-          // console.log(header);
+
+          // separate data from header
           const dataArray = allData.slice(2, allData.length);
-          console.log(dataArray);
 
           let articles = [];
 
-          // get individual dataset
+          // get and format individual datasets
           dataArray.forEach((element) => {
-            // console.log(element);
-            let res = '';
-            res = element.replace(/;;/g, '; ;');
+            let resCorrSemicolon = '';
+            resCorrSemicolon = element.replace(/;;/g, '; ;');
             do {
-              res = res.replace(/;;/g, '; ;');
-            } while (res.includes(';;'));
-            console.log(res);
-            let res2 = res.replace(/""/g, "'");
-            let tempArray = res2.match(/("[^"]*")|[^;]+/g);
-            console.log(tempArray);
-            // let articlePropertyArray = element.split(';');
-            // console.log(articlePropertyArray);
-            for (i = 0; i < tempArray.length; i++) {
-              if (tempArray[i].includes('"')) {
-                console.log('inclues "');
-                let res = tempArray[i].replace(/\\"/g, '');
-                let res2 = res.replace(/"/g, '');
-                let res3 = res2.replace(/'/g, '"');
-                tempArray[i] = res3;
+              resCorrSemicolon = resCorrSemicolon.replace(/;;/g, '; ;');
+            } while (resCorrSemicolon.includes(';;'));
+
+            let resCorrSingleQuotes = resCorrSemicolon.replace(/""/g, "'");
+
+            // ignore semicolon if article property is wrapped in quotes
+            let resCorrQuotesSemicolon = resCorrSingleQuotes.match(/("[^"]*")|[^;]+/g); 
+
+            // fix quotes issues
+            for (i = 0; i < resCorrQuotesSemicolon.length; i++) {
+              if (resCorrQuotesSemicolon[i].includes('"')) {
+                let temp = resCorrQuotesSemicolon[i].replace(/\\"/g, '');
+                let temp2 = temp.replace(/"/g, '');
+                let temp3 = temp2.replace(/'/g, '"');
+                resCorrQuotesSemicolon[i] = temp3;
               }
-              if (tempArray[i].includes("'")) {
-                console.log("includes '");
-                tempArray[i].replace(/'/g, '"');
+              if (resCorrQuotesSemicolon[i].includes("'")) {
+                resCorrQuotesSemicolon[i].replace(/'/g, '"');
               }
             }
-            console.log(tempArray);
+
+            // create article object
             let propertyObject = {};
-            for (var i = 0; i < tempArray.length; i++) {
-              propertyObject[header[i]] = tempArray[i];
+            for (var i = 0; i < resCorrQuotesSemicolon.length; i++) {
+              propertyObject[header[i]] = resCorrQuotesSemicolon[i];
             }
-            // console.log(propertyObject);
             articles.push(propertyObject);
           });
-
-          console.log(articles);
 
           that.$store.dispatch('addArticles', articles);
           that.hasArticles = true;
@@ -121,6 +114,8 @@ export default {
       let csvContent = 'data:text/csv;charset=utf-8,\nArticle\n';
       let propRow = properties.join(';');
       csvContent += propRow + '\n';
+
+      // add double quotes if article property contains certain characters to match the csv import conditions
       articles.forEach((element) => {
         let article = Object.values(element);
         article.forEach((item, idx, arr) => {

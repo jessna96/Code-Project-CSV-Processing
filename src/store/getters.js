@@ -9,6 +9,5 @@ export default {
         else {
             return false;
         }
-        
     }
 }

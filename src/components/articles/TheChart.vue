@@ -45,6 +45,8 @@ export default {
       const propArray = this.articles.map(function (article) {
         return article[property];
       });
+
+      // set value of legend for empty properties to - leer -
       const occurrences = propArray.reduce(function (acc, curr) {
         if ((curr == '') | (curr == ' ')) {
           return (
@@ -55,13 +57,12 @@ export default {
         }
       }, {});
 
-      console.log(occurrences);
+      // remove empty occurence
       delete occurrences['- leer -'];
 
       let values = Object.values(occurrences);
       let labels = Object.keys(occurrences);
-      //   console.log(values);
-      //   console.log(labels);
+
       return {
         uuid: 'pieChart',
         data: [

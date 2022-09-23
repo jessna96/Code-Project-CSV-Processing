@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import store from './store/index.js';
-// import {DataTable} from "datatables.net";
+
 import BaseButton from './components/ui/BaseButton.vue';
 
 

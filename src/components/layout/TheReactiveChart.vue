@@ -14,7 +14,7 @@ export default {
     },
   },
   mounted() {
-    console.log(this.chart.uuid);
+    // create chart 
     Plotly.newPlot(
       this.$refs[this.chart.uuid],
       this.chart.data,
@@ -22,6 +22,7 @@ export default {
     );
   },
   watch: {
+    // update chart as soon as another category is chosen
     chart: {
       handler() {
         Plotly.react(
